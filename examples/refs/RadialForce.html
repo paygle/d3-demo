@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Radial Force</title>
+  <style>
+    body{
+        background-color: black;
+    }
+    .main {
+        position: relative;
+        background-color: rgb(253, 253, 253);
+        width: 1280px;
+        margin: 0 auto;
+    }
+    label {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        left: 10px;
+        top: 10px;
+    }
+  </style>
+  <script src="/js/d3.js"></script>
+</head>
+<body>
+    <div class="main">
+        <svg width="1280" height="730" viewBox="-480 -250 1280 730">
+            <circle r="100" stroke="brown" stroke-opacity="0.5" fill="none"></circle>
+            <circle r="200" stroke="steelblue" stroke-opacity="0.5" fill="none"></circle>
+        </svg>
+    </div>
+    <script>
+    var nodes = [].concat(
+        d3.range(80).map(function() { return {type: "a"}; }),
+        d3.range(160).map(function() { return {type: "b"}; })
+    );
+
+    var node = d3.select("svg")
+    .append("g")
+    .selectAll("circle")
+    .data(nodes)
+    .enter().append("circle")
+        .attr("r", 2.5)
+        .attr("fill", function(d) { return d.type === "a" ? "brown" : "steelblue"; })
+
+    var simulation = d3.forceSimulation(nodes)
+        .force("charge", d3.forceCollide().radius(5))
+        .force("r", d3.forceRadial(function(d) { return d.type === "a" ? 100 : 200; }))
+        .on("tick", ticked);
+
+    function ticked() {
+        node
+        .attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+    }
+    </script>
+</body>
+</html>
