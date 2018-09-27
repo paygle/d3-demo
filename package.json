@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/paygle/d3-demo#readme",
   "dependencies": {
-    "d3": "^5.1.0"
+    "d3": "^5.7.0"
   },
   "devDependencies": {
     "del": "^3.0.0",
